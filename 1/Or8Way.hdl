@@ -11,5 +11,13 @@ CHIP Or8Way {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    //out = in[0] + in[1] + in[2] + in[3] + in[4] + in[5] + in[6] + in[7]
+    //8 inputs, so we can use 7 OR gates to combine them
+    Or(a=in[0], b=in[1], out=or1); // or1 = in[0] + in[1]
+    Or(a=in[2], b=in[3], out=or2); // or2 = in[2] + in[3]
+    Or(a=in[4], b=in[5], out=or3); // or3 = in[4] + in[5]
+    Or(a=in[6], b=in[7], out=or4); // or4 = in[6] + in[7]
+    Or(a=or1, b=or2, out=or5); // or5 = or1 + or2 = (in[0] + in[1]) + (in[2] + in[3])
+    Or(a=or3, b=or4, out=or6); // or6 = or3 + or4 = (in[4] + in[5]) + (in[6] + in[7])
+    Or(a=or5, b=or6, out=out); // out = or5 + or6 = ((in[0] + in[1]) + (in[2] + in[3])) + ((in[4] + in[5]) + (in[6] + in[7]))
 }

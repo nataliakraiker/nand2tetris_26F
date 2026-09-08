@@ -20,5 +20,9 @@ CHIP Mux8Way16 {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    //eight 16-bit inputs, one 3 bit selector: sel[3], one 16 bit output: out[16]
+    Mux4Way16(a=a, b=b, c=c, d=d, sel=sel[0..1], out=abcd); //uses sel[0..1] to choose between the first 4 inputs
+    Mux4Way16(a=e, b=f, c=g, d=h, sel=sel[0..1], out=efgh); //uses sel[0..1] to choose between the last 4 inputs
+    Mux16(a=abcd, b=efgh, sel=sel[2], out=out); //uses sel[2] to choose between the outputs of the two 4-way muxes
+    //sel[2]=0: out=abcd, sel[2]=1: out=efgh, sel[0..1]=00: abcd=a, efgh=e, sel[0..1]=01: abcd=b, efgh=f, sel[0..1]=10: abcd=c, efgh=g, sel[0..1]=11: abcd=d, efgh=h  
 }

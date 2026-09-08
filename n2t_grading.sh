@@ -27,13 +27,13 @@ done
 # Determine the correct runner based on project number
 case "$PROJ_NUM" in
     01|02|03|05)
-        RUNNER="HardwareSimulator.sh"
+        RUNNER="HardwareSimulator.bat"
         ;;
     07|08)
-        RUNNER="VMEmulator.sh"
+        RUNNER="VMEmulator.bat"
         ;;
     04|09|12)
-        RUNNER="CPUEmulator.sh"
+        RUNNER="CPUEmulator.bat"
         ;;
     06|10|11)
         echo "Project $PROJ_NUM requires testing compiler/assembler outputs directly."
@@ -41,7 +41,7 @@ case "$PROJ_NUM" in
         ;;
     *)
         # Default fallback for custom or unlisted folders
-        RUNNER="HardwareSimulator.sh"
+        RUNNER="HardwareSimulator.bat"
         ;;
 esac
 

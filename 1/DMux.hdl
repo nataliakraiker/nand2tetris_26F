@@ -12,5 +12,8 @@ CHIP DMux {
     OUT a, b;
 
     PARTS:
-    //// Replace this comment with your code.
+    //rule: sel=0, a=in, b=0; sel=1, a=0, b=in
+    Not(in=sel, out=notsel); // invert selector
+    And(a=in, b=notsel, out=a); // a = in * notsel
+    And(a=in, b=sel, out=b); // b = in * sel
 }

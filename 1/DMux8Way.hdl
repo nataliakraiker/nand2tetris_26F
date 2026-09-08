@@ -14,9 +14,11 @@
  *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
  */
 CHIP DMux8Way {
-    IN in, sel[3];
+    IN in, sel[3]; // 3 selector bits; 2^3=8 inputs
     OUT a, b, c, d, e, f, g, h;
 
     PARTS:
-    //// Replace this comment with your code.
+    DMux(in=in, sel=sel[2], a=abcd, b=efgh); //1-bit demux, uses sel[2] to choose between the first 4 outputs and the last 4 outputs
+    DMux4Way(in=abcd, sel=sel[0..1], a=a, b=b, c=c, d=d); //2-way demux, uses sel[0..1] to choose between the first 4 outputs
+    DMux4Way(in=efgh, sel=sel[0..1], a=e, b=f, c=g, d=h);  //2-way demux, uses sel[0..1] to choose between the last 4 outputs
 }

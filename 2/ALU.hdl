@@ -41,5 +41,31 @@ CHIP ALU {
         ng;      // if (out < 0)  equals 1, else 0
 
     PARTS:
-    //// Replace this comment with your code.
+    // Zero/negate X input
+    Mux16(a=x, b=false, sel=zx, out=x1);
+    Not16(in=x1, out=notx1);
+    Mux16(a=x1, b=notx1, sel=nx, out=x2); //choose x or !x
+
+    // zero/negate Y input
+    Mux16(a=y, b=false, sel=zy, out=y1);
+    Not16(in=y1, out=noty1);
+    Mux16(a=y1, b=noty1, sel=ny, out=y2); //choose and or add
+
+    //Add16 or And16 function
+    And16(a=x2, b=y2, out=xAndy);
+    Add16(a=x2, b=y2, out=xPlusy);
+    Mux16(a=xAndy, b=xPlusy, sel=f, out=fOut);
+
+    //negate final output if needed 
+    Not16(in=fOut, out=notFOut);
+    Mux16(a=fOut, b=notFOut, sel=no, out=out, out[0..7]=low8, out[8..15]=high8, out[15]=ngFlag); //choose result or !result
+
+    // Set ng flag (1 if negative, 0 otherwise)
+    And(a=ngFlag, b=true, out=ng);
+
+    // Set zr flag (1 if 0, 0 otherwise using Or8Way)
+    Or8Way(in=low8, out=orLow);
+    Or8Way(in=high8, out=orHigh);
+    Or(a=orLow, b=orHigh, out=orTotal);
+    Not(in=orTotal, out=zr);
 }

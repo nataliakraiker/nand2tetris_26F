@@ -11,5 +11,8 @@ CHIP Or {
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    //Demorgans Law: a + b = not(not(a) * not(b))
+    Not(in=a, out=nota); //nota
+    Not(in=b, out=notb); //notb
+    Nand(a=nota, b=notb, out=out); //out = not(nota * notb) = a + b
 }
