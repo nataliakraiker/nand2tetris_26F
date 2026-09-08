@@ -58,14 +58,12 @@ CHIP ALU {
 
     //negate final output if needed 
     Not16(in=fOut, out=notFOut);
-    Mux16(a=fOut, b=notFOut, sel=no, out=out, out[0..7]=low8, out[8..15]=high8, out[15]=ngFlag); //choose result or !result
+    Mux16(a=fOut, b=notFOut, sel=no, out=out, out[0..7]=low8, out[8..15]=high8, out[15]=ng); //choose result or !result
+    // ng=1 --> out is -, ng=0 --> out is + or 0
 
-    // Set ng flag (1 if negative, 0 otherwise)
-    And(a=ngFlag, b=true, out=ng);
-
-    // Set zr flag (1 if 0, 0 otherwise using Or8Way)
-    Or8Way(in=low8, out=orLow);
-    Or8Way(in=high8, out=orHigh);
-    Or(a=orLow, b=orHigh, out=orTotal);
+    //set zr; zr=1 if out=0, zr=0 if out!=0
+    Or8Way(in=low8, out=orLow); //check lower 8 bits
+    Or8Way(in=high8, out=orHigh); //check upper 8 
+    Or(a=orLow, b=orHigh, out=orTotal); 
     Not(in=orTotal, out=zr);
 }
